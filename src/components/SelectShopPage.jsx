@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import NotificationPanel from "./NotificationPanel";
-
-
 
 // const [showNotif, setShowNotif] = useState(false);
 // ── Logo ──────────────────────────────────────────────────────
@@ -83,6 +82,7 @@ const SHOPS = [
 
 export default function SelectShopPage({ cartCount = 2, onLogin, onViewShop }) {
   const [query, setQuery] = useState("");
+  const [showNotif, setShowNotif] = useState(false);
   const navigate = useNavigate();
   const handleViewShop = onViewShop ?? ((shop) => navigate(`/shop/${shop.id}`));
 
@@ -102,7 +102,10 @@ export default function SelectShopPage({ cartCount = 2, onLogin, onViewShop }) {
 
         <div className="flex items-center gap-6">
           {/* Home */}
-          <button className="text-white/90 text-sm font-medium hover:text-white transition-colors">
+          <button
+            onClick={() => navigate("/shops")}
+            className="text-white/90 text-sm font-medium hover:text-white transition-colors"
+          >
             Home
           </button>
 
@@ -114,9 +117,26 @@ export default function SelectShopPage({ cartCount = 2, onLogin, onViewShop }) {
                 className="absolute -top-2 -right-4 w-5 h-5 rounded-full text-white text-xs font-bold flex items-center justify-center"
                 style={{ background: "#4ade80" }}
               >
-                {cartCount}
+                {cartCount} 
               </span>
             )}
+          </button>
+
+
+          {/* My Orders */}
+          <button
+            onClick={() => navigate("/orders")}
+            className="text-white/90 text-sm font-medium hover:text-white transition-colors"
+          >
+            My Orders
+          </button>
+
+          {/* My Profile */}
+          <button
+            onClick={() => navigate("/profile")}
+            className="text-white/90 text-sm font-medium hover:text-white transition-colors"
+          >
+            My Profile
           </button>
 
             <button
@@ -128,6 +148,7 @@ export default function SelectShopPage({ cartCount = 2, onLogin, onViewShop }) {
                         3
                       </span>
                     </button>
+                  {showNotif && <NotificationPanel onClose={() => setShowNotif(false)} />}
                     
                  
 

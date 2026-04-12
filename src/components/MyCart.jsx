@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import NotificationPanel from "./NotificationPanel";
 const initialCartItems = [
   
   { id: 1, name: "Sabudana", qty: 1, unit: "kg", priceEach: 50, image: "https://www.ruchiskitchen.com/wp-content/uploads/2015/02/How-to-make-non-sticky-sabudana-04.jpg.webp" },
@@ -17,6 +17,7 @@ const initialCartItems = [
 
 export default function MyCart() {
   const navigate = useNavigate();
+  const [showNotif, setShowNotif] = useState(false);
   const [items, setItems] = useState(initialCartItems);
 
   const increase = (id) =>
@@ -57,12 +58,14 @@ export default function MyCart() {
           <span className="text-white">Local</span><span className="text-green-300">Cart</span>
         </button>
         <div className="flex items-center gap-6">
-          <button onClick={() => navigate("/")} className="text-sm font-medium hover:text-green-300 transition-colors">Home</button>
-          <button className="text-sm font-medium hover:text-green-300 transition-colors">My Orders</button>
-          <button className="relative">
+          <button onClick={() => navigate("/shops")} className="text-sm font-medium hover:text-green-300 transition-colors">Home</button>
+          <button onClick={() => navigate("/orders")} className="text-sm font-medium hover:text-green-300 transition-colors">My Orders</button>
+          <button onClick={() => setShowNotif(true)} className="relative">
             <span className="text-xl">🔔</span>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold text-[10px]">3</span>
           </button>
+            {showNotif && <NotificationPanel onClose={() => setShowNotif(false)} />}
+                              
         </div>
       </nav>
 

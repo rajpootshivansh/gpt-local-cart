@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import BillModal from "./BillModal";
 const TABS = ["Pending", "Accepted", "Ready", "Delivered"];
 
 const initialOrders = [
@@ -35,7 +35,12 @@ function Sidebar({ activeView, setActiveView, shopName, onLogout }) {
     { key: "viewOrders",  icon: "📋", label: "View Orders"  },
   ];
   return (
-    <aside className="w-56 min-h-screen  flex flex-col text-white flex-shrink-0" style={{ background: "linear-gradient(90deg,#3b82f6 0%,#2563eb 100%)" }}>
+
+
+
+
+
+    <aside className="w-56 min-h-screen  flex flex-col text-white flex-shrink-0" style={{ background: "linear-gradient(135deg,#4ade80,#22c55e)" }}>
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 py-5 border-b border-white/10">
         <span className="text-xl">
@@ -50,7 +55,7 @@ function Sidebar({ activeView, setActiveView, shopName, onLogout }) {
             <path d="M36 18 L36 23" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
         </span>
-        <span className="font-bold text-base">Local<span className="text-green-300">Cart</span></span>
+        <span  className="font-bold text-base">Local<span className="text-green-300">Cart</span></span>
       </div>
       {/* Welcome */}
       <div className="px-5 py-4 border-b border-white/10">
@@ -58,7 +63,7 @@ function Sidebar({ activeView, setActiveView, shopName, onLogout }) {
         <p className="font-bold text-sm">{shopName || "Seth Kirana Store"}</p>
       </div>
       {/* Nav */}
-      <nav className="flex-1 py-4 space-y-1 px-3">
+      <nav  style={{ background: "linear-gradient(90deg,#3b82f6 0%,#2563eb 100%)" }} className="flex-1 py-4 space-y-1 px-3">
         {links.map((l) => (
           <button
             key={l.key}
@@ -118,7 +123,7 @@ function OrderCard({ order, onStatusChange }) {
           {/* Pickup & Pay */}
           <div className="border border-blue-100 bg-blue-50 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-blue-500">✅</span>
+              <span style={{ background: "linear-gradient(90deg,#3b82f6 0%,#2563eb 100%)" }}>✅</span>
               <span className="font-semibold text-gray-800 text-sm">Pickup & Pay</span>
             </div>
             <p className="text-xs text-gray-500 mb-3">Order is packed. Customer will pay ₹{order.total} at pickup</p>
@@ -183,7 +188,7 @@ function OrderCard({ order, onStatusChange }) {
 }
 
 // ── Bill Summary Sidebar ─────────────────────────────────────────────────────
-function BillSummary({ order }) {
+function BillSummary({ order, onDownloadBill }) {
   if (!order) return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center text-gray-400 text-sm">
       Select a Ready order to see bill summary
@@ -220,7 +225,10 @@ function BillSummary({ order }) {
           <span>Total =</span>
           <span>₹ {order.total}</span>
         </div>
-        <button className="mt-4 w-full border border-gray-200 text-gray-600 text-sm font-medium py-2.5 rounded-xl hover:bg-gray-50 transition-colors">
+        <button
+          onClick={() => onDownloadBill(order)}
+          className="mt-4 w-full border border-gray-200 text-gray-600 text-sm font-medium py-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+        >
           Download Bill
         </button>
       </div>
@@ -383,7 +391,7 @@ function AddProductView({ orders, onStatusChange, activeTab, setActiveTab }) {
 }
 
 // ── Dashboard (orders) View ──────────────────────────────────────────────────
-function DashboardView({ orders, onStatusChange, activeTab, setActiveTab }) {
+function DashboardView({ orders, onStatusChange, activeTab, setActiveTab, onDownloadBill }) {
   const filtered   = orders.filter((o) => o.status === activeTab);
   const readyOrder = orders.find((o) => o.status === "Ready");
 
@@ -418,7 +426,7 @@ function DashboardView({ orders, onStatusChange, activeTab, setActiveTab }) {
 
       {/* Bill summary */}
       <div className="w-72 flex-shrink-0">
-        <BillSummary order={readyOrder} />
+        <BillSummary order={readyOrder} onDownloadBill={onDownloadBill} />
       </div>
     </div>
   );
@@ -432,9 +440,16 @@ export default function AdminDashboard() {
   const [activeView, setActiveView] = useState("dashboard");
   const [activeTab,  setActiveTab]  = useState("Pending");
   const [orders, setOrders]         = useState(initialOrders);
+  const [showBill, setShowBill]     = useState(false);
+  const [billOrder, setBillOrder]   = useState(null);
 
   const handleStatusChange = (id, newStatus) => {
     setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status: newStatus } : o));
+  };
+
+  const handleDownloadBill = (order) => {
+    setBillOrder(order);
+    setShowBill(true);
   };
 
   const handleLogout = () => {
@@ -484,6 +499,7 @@ export default function AdminDashboard() {
               onStatusChange={handleStatusChange}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
+              onDownloadBill={handleDownloadBill}
             />
           )}
           {activeView === "addProduct" && (
@@ -492,6 +508,7 @@ export default function AdminDashboard() {
               onStatusChange={handleStatusChange}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
+              onDownloadBill={handleDownloadBill}
             />
           )}
           {activeView === "viewOrders" && (
@@ -504,6 +521,33 @@ export default function AdminDashboard() {
           )}
         </div>
       </div>
-    </div>
+
+
+
+      {/* ← ADD THIS BLOCK */}
+      {showBill && billOrder && (
+        <BillModal
+          onClose={() => setShowBill(false)}
+          bill={{
+            orderId: `#${billOrder.id}2678`,
+            date: new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" }),
+            time: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+            shopName: shopName,
+            shopAddress: "Lal Ghati, Bhopal, Madhya Pradesh",
+            shopPhone: "+91 99876 54321",
+            customer: billOrder.customer,
+            customerPhone: "+91 98765 43210",
+            items: billOrder.items.map(i => ({ name: i.name, qty: i.qty, price: 50 })),
+            deliveryCharge: 0,
+            status: billOrder.status,
+          }}
+        />
+      )}
+    </div> 
+
+
+
+
+
   );
 }

@@ -17,9 +17,8 @@ export default function LandingPage() {
         style={{ minHeight: "50vh" }}
       >
         <div
-          className={`flex items-center gap-3 transition-all duration-700 ${
-            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+          className={`flex items-center gap-3 transition-all duration-700 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
         >
           <svg
             width="64"
@@ -91,9 +90,8 @@ export default function LandingPage() {
         />
 
         <div
-          className={`flex flex-col items-center text-center z-10 transition-all duration-700 delay-200 ${
-            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+          className={`flex flex-col items-center text-center z-10 transition-all duration-700 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
         >
           <div className="flex items-center gap-2 mb-6">
             <svg width="36" height="36" viewBox="0 0 64 64" fill="none">
@@ -150,15 +148,14 @@ export default function LandingPage() {
             <br />
             <span style={{ color: "#bbf7d0" }}>trusted local shop</span>
             <br />
-<br />
-            <span > Project By <br /> <span style={{ color: "#bbf7d0" }}>Shivansh</span></span>
+            <br />
+            <span > Project By <br /> <span style={{ color: "#bbf7d0" }}>.....</span></span>
           </h1>
         </div>
 
         <div
-          className={`flex flex-col items-center z-10 transition-all duration-700 delay-400 ${
-            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-col items-center z-10 transition-all duration-700 delay-400 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <div
             className="mb-8 select-none"

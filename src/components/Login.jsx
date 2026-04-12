@@ -88,7 +88,7 @@ export default function Login() {
             <input
               type="text"
               maxLength={6}
-              placeholder="Enter OTP 1234 "
+              placeholder="Enter OTP 1234"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/, ""))}
               className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-[#2e7d6b]/40"

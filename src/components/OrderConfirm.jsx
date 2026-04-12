@@ -29,7 +29,7 @@ export default function OrderConfirm() {
     <div className="min-h-screen bg-[#f0f2f8] font-sans">
 
       {/* Navbar */}
-      <nav className=" text-white px-6 py-3 flex items-center justify-between sticky top-0 z-50 shadow-md" style={{ background: "linear-gradient(90deg,#3b82f6 0%,#2563eb 100%)" }}>
+      <nav className=" text-white px-6 py-3 flex items-center justify-between sticky top-0 z-50 shadow-md" style={{ background: "linear-gradient(135deg,#4ade80,#22c55e)" }}>
         <button onClick={() => navigate("/")} className="flex items-center gap-2 text-xl font-bold">
           <span className="text-2xl">
             <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
@@ -46,8 +46,8 @@ export default function OrderConfirm() {
           <span className="text-white">Local</span><span className="text-green-300">Cart</span>
         </button>
         <div className="flex items-center gap-6">
-          <button onClick={() => navigate("/")} className="text-sm font-medium hover:text-green-300 transition-colors">Home</button>
-          <button className="text-sm font-medium hover:text-green-300 transition-colors">My Orders</button>
+          <button onClick={() => navigate("/shops")} className="text-sm font-medium hover:text-green-300 transition-colors">Home</button>
+          <button onClick={() => navigate("/orders")} className="text-sm font-medium hover:text-green-300 transition-colors">My Orders</button>
           <span className="text-xl">🔔</span>
         </div>
       </nav>
@@ -139,7 +139,7 @@ export default function OrderConfirm() {
                 </div>
 
                 <button
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/shops")}
                   className="mt-5 w-full bg-[#21ba51] hover:bg-[#07642e] text-white font-bold py-2.5 rounded-xl text-sm transition-colors"
                 >
                   Back to Homepage
